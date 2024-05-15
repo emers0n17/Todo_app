@@ -1,0 +1,161 @@
+document.addEventListener('DOMContentLoaded', () => {
+    const taskInput = document.getElementById('new-task');
+    const addTaskButton = document.getElementById('add-task');
+    const taskList = document.getElementById('task-list');
+
+    // Carregar tarefas salvas
+    const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+
+    // Função para salvar tarefas no localStorage
+    function saveTasks() {
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+    }
+
+    // Função para adicionar uma nova tarefa
+    function addTask(task) {
+        const li = document.createElement('li');
+        li.innerHTML = `${task.text} <button>Excluir</button>`;
+        if (task.completed) {
+            li.classList.add('completed');
+        }
+
+        li.addEventListener('click', () => {
+            task.completed = !task.completed;
+            saveTasks();
+            li.classList.toggle('completed');
+        });
+
+        li.querySelector('button').addEventListener('click', (e) => {
+            e.stopPropagation();
+            const index = tasks.indexOf(task);
+            tasks.splice(index, 1);
+            saveTasks();
+            renderTasks();
+        });
+
+        taskList.appendChild(li);
+    }
+
+    // Função para renderizar as tarefas
+    function renderTasks() {
+        taskList.innerHTML = '';
+        tasks.forEach(addTask);
+    }
+
+    // Adicionar evento para o botão de adicionar tarefa
+    addTaskButton.addEventListener('click', () => {
+        const taskText = taskInput.value.trim();
+        if (taskText) {
+            const task = { text: taskText, completed: false };
+            tasks.push(task);
+            saveTasks();
+            addTask(task);
+            taskInput.value = '';
+        }
+    });
+
+    // Adicionar tarefa ao pressionar Enter
+    taskInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            addTaskButton.click();
+        }
+    });
+
+    // Renderizar tarefas ao carregar a página
+    renderTasks();
+});
+
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+h1 {
+    margin-top: 0;
+    text-align: center;
+}
+
+input[type="text"] {
+    width: calc(100% - 90px);
+    padding: 10px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    padding: 10px;
+    background: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #218838;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    padding: 10px;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+li.completed {
+    text-decoration: line-through;
+    background: #d4edda;
+}
+
+li button {
+    background: #dc3545;
+}
+
+li button:hover {
+    background: #c82333;
+}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Tarefas</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Lista de Tarefas</h1>
+        <input type="text" id="new-task" placeholder="Adicione uma nova tarefa">
+        <button id="add-task">Adicionar</button>
+        <ul id="task-list"></ul>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Todo List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            width: 80%;
+            margin: auto;
+        }
+
+        #tarefa-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .tarefa {
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .tarefa:last-child {
+            border-bottom: none;
+        }
+
+        .tarefa .tarefa-nome {
+            font-weight: bold;
+        }
+
+        .tarefa .tarefa-prioridade {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .tarefa .tarefa-actions {
+            float: right;
+        }
+
+        .tarefa .tarefa-actions button {
+            margin-left: 10px;
+        }
+
+        #reward {
+            margin-top: 20px;
+            font-size: 18px;
+            color: green;
+        }
+
+        #user-info {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+        #premios {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+        .achievement {
+            padding: 10px;
+            border: 1px solid #ccc;
+            margin: 5px 0;
+        }
+
+        .completo {
+            color: green;
+        }
+
+        .not-completo {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Todo List</h1>
+    <form id="new-tarefa-form">
+        <input type="text" id="new-tarefa-input" placeholder="Add new tarefa" />
+        <select class="new-tarefa-prioridade">
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+        </select>
+        <button id="add-tarefa-btn">Add tarefa</button>
+    </form>
+    <ul id="tarefa-list"></ul>
+    <div id="reward"></div>
+
+    <div id="user-info">
+        <h2>User Information</h2>
+        <p id="total-pontos">Total pontos: 0</p>
+    </div>
+
+    <div id="premios">
+        <h2>premios</h2>
+        <ul id="achievement-list"></ul>
+    </div>
+
+    <script>
+        let tarefas = [];
+        let pontos = localStorage.getItem('pontos') ? parseInt(localStorage.getItem('pontos')) : 0;
+        const premios = [
+            "Complete 1 tarefa",
+            "Complete 2 tarefas",
+            "Complete 3 tarefas",
+            "Complete 4 tarefas",
+            "Complete 5 tarefas",
+            "Complete 6 tarefas",
+            "Complete 7 tarefas",
+            "Complete 8 tarefas",
+            "Complete 9 tarefas",
+            "Complete 10 tarefas"
+        ];
+
+        const rewardMessages = [
+            "Great job!",
+            "Keep it up!",
+            "You're on fire!",
+            "Amazing work!",
+            "You're a star!"
+        ];
+
+        function salvarTarefas() {
+            localStorage.setItem('tarefas', JSON.stringify(tarefas));
+        }
+
+        function carregarTarefas() {
+            const savedtarefas = localStorage.getItem('tarefas');
+            if (savedtarefas) {
+                tarefas = JSON.parse(savedtarefas);
+                renderizarListaDeTarefas();
+            }
+        }
+
+        function addtarefa(nomeDaTarefa, prioridade) {
+            const tarefa = {
+                id: Date.now(),
+                nome: nomeDaTarefa,
+                prioridade: prioridade,
+                completo: false,
+            };
+            tarefas.push(tarefa);
+            renderizarListaDeTarefas();
+            salvarTarefas();
+        }
+
+        function renderizarListaDeTarefas() {
+            const tarefaList = document.getElementById('tarefa-list');
+            tarefaList.innerHTML = '';
+            tarefas.forEach((tarefa) => {
+                const tarefaHTML = `
+                    <li class="tarefa">
+                        <span class="tarefa-nome">${tarefa.nome}</span>
+                        <span class="tarefa-prioridade">prioridade: ${tarefa.prioridade}</span>
+                        <div class="tarefa-actions">
+                            <button class="complete-tarefa-btn" data-tarefa-id="${tarefa.id}">Complete</button>
+                            <button class="edit-tarefa-btn" data-tarefa-id="${tarefa.id}">Edit</button>
+                            <button class="delete-tarefa-btn" data-tarefa-id="${tarefa.id}">Delete</button>
+                        </div>
+                    </li>
+                `;
+                tarefaList.insertAdjacentHTML('beforeend', tarefaHTML);
+            });
+        }
+
+        function handleAddtarefa(event) {
+            event.preventDefault();
+            const newtarefaInput = document.getElementById('new-tarefa-input');
+            const newnomeDaTarefa = newtarefaInput.value.trim();
+            const newtarefaprioridade = document.querySelector('.new-tarefa-prioridade').value;
+
+            if (newnomeDaTarefa && newtarefaprioridade) {
+                addtarefa(newnomeDaTarefa, newtarefaprioridade);
+                newtarefaInput.value = '';
+            }
+        }
+
+        function handleEdittarefa(event) {
+            const tarefaId = event.target.dataset.tarefaId;
+            const tarefaToEdit = tarefas.find((tarefa) => tarefa.id === parseInt(tarefaId));
+
+            if (tarefaToEdit) {
+                const newnomeDaTarefa = prompt('Enter the new tarefa nome:', tarefaToEdit.nome);
+                if (newnomeDaTarefa) {
+                    tarefaToEdit.nome = newnomeDaTarefa;
+                    renderizarListaDeTarefas();
+                    salvarTarefas();
+                }
+            }
+        }
+
+    
+
+function handleCompletetarefa(event) {
+    const tarefaId = event.target.dataset.tarefaId;
+    const tarefaToComplete = tarefas.find((tarefa) => tarefa.id === parseInt(tarefaId));
+
+    if (tarefaToComplete) {
+        tarefas = tarefas.filter((tarefa) => tarefa.id !== parseInt(tarefaId));
+        
+        let pontosAwarded;
+        switch (tarefaToComplete.prioridade) {
+            case 'low':
+                pontosAwarded = 1;
+                break;
+            case 'medium':
+                pontosAwarded = 3;
+                break;
+            case 'high':
+                pontosAwarded = 5;
+                break;
+            default:
+                pontosAwarded = 0;
+                break;
+        }
+
+        pontos += pontosAwarded;
+        localStorage.setItem('pontos', pontos.toString());
+        displayRewardMessage(pontosAwarded);
+        updateUserInfo();
+        renderizarListaDeTarefas();
+        salvarTarefas();
+    }
+}
+
+function displayRewardMessage(pontosAwarded) {
+    const rewardElement = document.getElementById('reward');
+    const randomMessage = rewardMessages[Math.floor(Math.random() * rewardMessages.length)];
+    rewardElement.textContent = `${randomMessage} You earned ${pontosAwarded} pontos! Total pontos: ${pontos}`;
+}
+
+function updateUserInfo() {
+    const totalpontosElement = document.getElementById('total-pontos');
+    totalpontosElement.textContent = `Total pontos: ${pontos}`;
+    updatepremios();
+}
+
+function updatepremios() {
+    const achievementList = document.getElementById('achievement-list');
+    achievementList.innerHTML = '';
+    premios.forEach((achievement, index) => {
+        const achievementHTML = `
+            <li class="achievement ${pontos >= (index + 1) * 10 ? 'completo' : 'not-completo'}">
+                ${achievement}
+            </li>
+        `;
+        achievementList.insertAdjacentHTML('beforeend', achievementHTML);
+    });
+}
+
+document.getElementById('new-tarefa-form').addEventListener('submit', handleAddtarefa);
+document.addEventListener('click', (event) => {
+    if (event.target.matches('.complete-tarefa-btn')) {
+        handleCompletetarefa(event);
+    } else if (event.target.matches('.edit-tarefa-btn')) {
+        handleEdittarefa(event);
+    } else if (event.target.matches('.delete-tarefa-btn')) {
+        handleDeletetarefa(event);
+    }
+});
+
+carregarTarefas();
+updateUserInfo();
+updatepremios();
+</script>
+</body>
+
+</html>

@@ -1,0 +1,63 @@
+.tema-claro {
+    --cor-fundo: white;
+    --cor-texto: #222831;
+    --cor-navbar: white;
+    --cor-destaque: #ff6868;
+    --cor-botao: #fd7014;
+    --sombra: 0 0 3px rgba(0, 0, 0, 0.6);
+    --cor-fundo-botao: white;
+    --cor-borda-botao: rgb(255, 0, 93);
+    --cor-letra-botao: white;
+  }
+  
+  .tema-escuro {
+    --cor-fundo: #222831;
+    --cor-texto: #eeeeee;
+    --cor-destaque: #ffbb64;
+    --cor-botao: #fd7014;
+    --sombra: 0 0 3px rgba(0, 0, 0, 0.6);
+    --cor-fundo-botao: white;
+    --cor-borda-botao: rgb(4, 55, 144);
+    --cor-letra-botao: white;
+  }
+
+  #task-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+  }
+
+  .task {
+      padding: 10px;
+      border-bottom: 1px solid #ccc;
+  }
+
+  .task:last-child {
+      border-bottom: none;
+  }
+
+  .task .task-name {
+      font-weight: bold;
+  }
+
+  .task .task-priority {
+      font-size: 12px;
+      color: #666;
+  }
+
+  .task .task-timer {
+      font-size: 12px;
+      color: #666;
+  }
+
+  .task .task-actions {
+      float: right;
+  }
+
+  .task .task-actions button {
+      margin-left: 10px;
+  }
+
+  #score {
+      font-weight: bold;
+  }

@@ -1,0 +1,248 @@
+.tema-claro {
+  --cor-fundo: white;
+  --cor-texto: #222831;
+  --cor-navbar: white;
+  --cor-destaque: #ff6868;
+  --cor-botao: #fd7014;
+  --sombra: 0 0 3px rgba(0, 0, 0, 0.6);
+  --cor-fundo-botao: white;
+  --cor-borda-botao: rgb(255, 0, 93);
+  --cor-letra-botao: white;
+}
+
+.tema-escuro {
+  --cor-fundo: #222831;
+  --cor-texto: #eeeeee;
+  --cor-destaque: #ffbb64;
+  --cor-botao: #fd7014;
+  --sombra: 0 0 3px rgba(0, 0, 0, 0.6);
+  --cor-fundo-botao: white;
+  --cor-borda-botao: rgb(4, 55, 144);
+  --cor-letra-botao: white;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#container {
+    user-select: none;
+    width: 350px;
+    height: 400px;
+    background-color: var(--cor-fundo);
+    box-shadow: var(--sombra);
+    border-radius: 10px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0;
+}
+
+#titulo {
+    width: 90%;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    color: var(--cor-texto);
+    position: relative;
+}
+
+/* #titulo:after {
+    content: "";
+    width: 250px;
+    background-color: var(--cor-fundo);
+    height: 50px;
+    position: absolute;
+    top: -1px;
+    left: 0;
+    animation: titulo 20s infinite linear;
+}
+
+@keyframes titulo {
+    0%, 20% {
+        left: 0;
+        width: 250px;
+    }
+
+    50%, 75% {
+        left: 250px;
+        width: 70px;
+    }
+
+    100% {
+        left: 0;
+    }
+} */
+
+.tema {
+    cursor: pointer;
+    position: absolute;
+    width: 50px;
+    height: 30px;
+    border: none;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.6);
+    background-color: white;
+    transition: 0.4s;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 14px;
+}
+
+.tema:nth-child(1){
+    left: 0px;
+    top: -30px;
+    border-top-left-radius: 6px;
+}
+
+.tema:nth-child(2){
+    left: 50px;
+    top: -30px;
+    border-top-right-radius: 6px;
+}
+
+
+#texto {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    font-size: 18px;
+    color: var(--cor-texto);
+    text-align: justify;
+    padding-left: 20px;
+}
+
+.btn_iniciar {
+    width: 150px;
+    height: 35px;
+    border-radius: 8px;
+    border: 1px solid var(--cor-borda-botao);
+    color: var(--cor-borda-botao);
+    background-color: var(--cor-fundo-botao);
+    transition: 0.4s;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 14px;
+    position: relative;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn_iniciar::before {
+    content: '';
+    width: 50px;
+    height: 15px;
+    border-left: 2px solid var(--cor-borda-botao);
+    border-top: 2px solid var(--cor-borda-botao);
+    position: absolute;
+    border-top-left-radius: 10px;
+    left: -5px;
+    top: -5px;
+    transition: 0.3s;
+}
+
+.btn_iniciar:hover::before {
+    content: '';
+    width: 50px;
+    height: 15px;
+    border: none;
+    border-top: 2px solid var(--cor-borda-botao);
+    border-right: 2px solid var(--cor-borda-botao);
+    position: absolute;
+    border-top-left-radius: 0;
+    border-top-right-radius: 10px;
+    position: absolute;
+    left: 103px;
+
+}
+
+.btn_iniciar::after {
+    content: '';
+    width: 50px;
+    height: 15px;
+    border-right: 2px solid var(--cor-borda-botao);
+    border-bottom: 2px solid var(--cor-borda-botao);
+    position: absolute;
+    border-bottom-right-radius: 10px;
+    right: -5px;
+    bottom: -5px;
+    transition: 0.3s;
+}
+
+.btn_iniciar:hover:after {
+    content: '';
+    width: 50px;
+    height: 15px;
+    border: none;
+    border-bottom: 2px solid var(--cor-borda-botao);
+    border-left: 2px solid var(--cor-borda-botao);
+    position: absolute;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 0;
+    position: absolute;
+    right: 103px;
+}
+
+.btn_iniciar:hover {
+    background-color: var(--cor-borda-botao);
+    color: var(--cor-letra-botao)
+}
+
+.autor {
+    width: 150px;
+    height: 30px;
+    position: absolute;
+    bottom: -30px;
+    left: 0;
+    border: none;
+    box-shadow: var(--sombra);
+    background-color: white;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.autor::after {
+    content: 'Criador 👋';
+    width: 70px;
+    height: 20px;
+    font-size: 10px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    counter-reset: black;
+    border-radius: 6px;
+    box-shadow: var(--sombra);
+    background-color: white;
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    left: -10px;
+    top: -19px;
+}
+
+svg {
+    width: 24px;
+    height: 24px;
+}
+
+.autor a {
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: blue;
+    font-size: 12px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+}
